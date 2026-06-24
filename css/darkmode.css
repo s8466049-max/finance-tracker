@@ -1,0 +1,187 @@
+/* ═══════════════════════════════════════════════════════════════
+   Finance Tracker — Premium Dark Mode
+   Layered surfaces, glass effects, refined contrast.
+   Load AFTER design-system.css, styles.css, components.css.
+   Activated via <body class="dark">.
+   ═══════════════════════════════════════════════════════════════ */
+
+body.dark {
+  color-scheme: dark;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(91,156,246,0.08), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%,  rgba(167,139,250,0.06), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* ── Layered surfaces ───────────────────────────────────── */
+body.dark .card,
+body.dark .c-metric-card,
+body.dark .c-chart-card,
+body.dark .dash-section,
+body.dark .insight-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+}
+
+body.dark .card:hover,
+body.dark .c-metric-card:hover,
+body.dark .c-chart-card:hover,
+body.dark .insight-card:hover {
+  border-color: rgba(91,156,246,0.40);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.04) inset,
+    0 12px 30px rgba(0,0,0,0.45);
+}
+
+/* ── Glass navbar ───────────────────────────────────────── */
+body.dark nav[data-app-nav] {
+  background: var(--surface-glass);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid var(--surface-glass-border);
+}
+
+/* ── Inputs ─────────────────────────────────────────────── */
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background: var(--bg-input);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+body.dark input::placeholder,
+body.dark textarea::placeholder { color: var(--text-faint); }
+
+body.dark input:focus,
+body.dark select:focus,
+body.dark textarea:focus {
+  border-color: var(--primary);
+  background: var(--surface-2);
+}
+
+/* ── Buttons ────────────────────────────────────────────── */
+body.dark .btn-export,
+body.dark button.primary,
+body.dark .btn.primary {
+  background: var(--gradient-primary);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+body.dark .btn-secondary,
+body.dark button.secondary {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* ── Tables ─────────────────────────────────────────────── */
+body.dark table {
+  background: var(--surface-1);
+  border-color: var(--border);
+}
+body.dark table thead {
+  background: var(--surface-2);
+}
+body.dark table tbody tr:hover {
+  background: rgba(91,156,246,0.06);
+}
+body.dark table td,
+body.dark table th { border-color: var(--border-light); }
+
+/* ── Badges & pills ─────────────────────────────────────── */
+body.dark .badge,
+body.dark .pill,
+body.dark .tag {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+/* ── Empty states ───────────────────────────────────────── */
+body.dark .c-empty-state {
+  background: var(--surface-2);
+  border: 1px dashed var(--border);
+  color: var(--text-secondary);
+}
+
+/* ── Section dividers ───────────────────────────────────── */
+body.dark hr,
+body.dark .divider { border-color: var(--border); }
+
+/* ── Chart canvas wrapper subtle frame ──────────────────── */
+body.dark .chart-container,
+body.dark .c-chart-card .chart-body {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0));
+  border-radius: var(--radius-md);
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+body.dark::-webkit-scrollbar { width: 10px; height: 10px; }
+body.dark::-webkit-scrollbar-track { background: var(--bg); }
+body.dark::-webkit-scrollbar-thumb {
+  background: var(--surface-3);
+  border-radius: 8px;
+  border: 2px solid var(--bg);
+}
+body.dark::-webkit-scrollbar-thumb:hover { background: #3a3f4d; }
+
+/* ── Selection ──────────────────────────────────────────── */
+body.dark ::selection {
+  background: rgba(91,156,246,0.35);
+  color: #fff;
+}
+
+/* ── Modals / overlays ──────────────────────────────────── */
+body.dark .modal-overlay,
+body.dark .backdrop {
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+body.dark .modal,
+body.dark .modal-content {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ── Status colors (deltas, badges) ─────────────────────── */
+body.dark .is-positive,
+body.dark .delta-positive { color: var(--success); }
+body.dark .is-negative,
+body.dark .delta-negative { color: var(--danger); }
+body.dark .is-warning     { color: var(--warning); }
+
+/* ── Premium accent strip on hover ──────────────────────── */
+body.dark .c-metric-card { position: relative; overflow: hidden; }
+body.dark .c-metric-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-premium);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+body.dark .c-metric-card:hover::before { opacity: 0.10; }
+
+/* ── Health Score dark mode ──────────────────────────────── */
+body.dark .health-ring-bg { stroke: var(--border); }
+body.dark .health-score-num { color: var(--text); }
+body.dark .hf-bar { background: var(--surface-2); }
+body.dark .health-verdict--great { background: rgba(27,158,75,0.12); border-color: rgba(27,158,75,0.25); }
+body.dark .health-verdict--good  { background: rgba(26,115,232,0.12); border-color: rgba(26,115,232,0.25); }
+body.dark .health-verdict--warn  { background: rgba(232,120,10,0.12); border-color: rgba(232,120,10,0.25); }
+body.dark .health-verdict--poor  { background: rgba(220,53,69,0.12);  border-color: rgba(220,53,69,0.25); }
+
+/* ── Investments dark mode ───────────────────────────────── */
+body.dark .inv-insight-card {
+  background: rgba(26,115,232,0.10);
+  border-color: rgba(26,115,232,0.25);
+}
+body.dark .btn-icon { color: var(--text-secondary); }
+body.dark .btn-icon:hover { background: rgba(26,115,232,0.15); }
+body.dark .btn-icon--danger:hover { background: rgba(220,53,69,0.15); }

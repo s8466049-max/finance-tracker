@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Tracker – Dashboard</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/darkmode.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <nav data-app-nav data-active="dashboard" data-base-path="root"></nav>
+  <script src="js/components/navbar.js"></script>
+
+  <div class="container">
+    <h1>Dashboard</h1>
+
+    <!-- 1. Financial Overview -->
+    <div class="dash-section">
+      <div class="dash-section-title">Financial Overview</div>
+      <div class="cards cards--overview">
+        <div class="card balance">
+          <h3>Cash Available</h3>
+          <div class="amount" id="availableBalance">&#8377;0</div>
+          <a href="views/accounts.html" class="card-action">Manage accounts &rarr;</a>
+        </div>
+        <div class="card expense">
+          <h3>Credit Card Due</h3>
+          <div class="amount" id="ccOutstanding">&#8377;0</div>
+          <a href="views/accounts.html" class="card-action">View breakdown &rarr;</a>
+        </div>
+        <div class="card savings">
+          <h3>Money to Receive</h3>
+          <div class="amount" id="lendingPending">&#8377;0</div>
+          <a href="views/lending.html" class="card-action">View details &rarr;</a>
+        </div>
+        <div class="card income">
+          <h3>Net Worth</h3>
+          <div class="amount" id="netWorthAmount">&#8377;0</div>
+          <a href="views/investments.html" class="card-action">View investments &rarr;</a>
+        </div>
+      </div>
+      <div id="dashIndicators" class="dash-indicators"></div>
+      <div id="dashSignals" class="dash-signals"></div>
+    </div>
+
+    <!-- 2. Financial Health Score -->
+    <div class="dash-section" id="healthScoreSection">
+      <div class="dash-section-title">&#x1F3AF; Financial Health Score</div>
+      <div class="health-score-wrap">
+        <div class="health-score-ring-wrap">
+          <svg class="health-ring" viewBox="0 0 120 120" width="120" height="120">
+            <circle class="health-ring-bg" cx="60" cy="60" r="52" fill="none" stroke-width="10"/>
+            <circle class="health-ring-fill" id="healthRingFill" cx="60" cy="60" r="52" fill="none" stroke-width="10"
+              stroke-dasharray="326.73" stroke-dashoffset="326.73" transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="health-score-center">
+            <div class="health-score-num" id="healthScoreNum">–</div>
+            <div class="health-score-label">/ 100</div>
+          </div>
+        </div>
+        <div class="health-score-factors">
+          <div class="health-factor" id="hf-savings">
+            <span class="hf-icon">&#x1F4B0;</span>
+            <div class="hf-body">
+              <div class="hf-name">Savings Rate</div>
+              <div class="hf-bar"><div class="hf-bar-fill" id="hfSavingsBar"></div></div>
+            </div>
+            <span class="hf-score" id="hfSavingsScore">–</span>
+          </div>
+          <div class="health-factor" id="hf-budget">
+            <span class="hf-icon">&#x1F4CB;</span>
+            <div class="hf-body">
+              <div class="hf-name">Budget Control</div>
+              <div class="hf-bar"><div class="hf-bar-fill" id="hfBudgetBar"></div></div>
+            </div>
+            <span class="hf-score" id="hfBudgetScore">–</span>
+          </div>
+          <div class="health-factor" id="hf-lending">
+            <span class="hf-icon">&#x1F91D;</span>
+            <div class="hf-body">
+              <div class="hf-name">Lending Exposure</div>
+              <div class="hf-bar"><div class="hf-bar-fill" id="hfLendingBar"></div></div>
+            </div>
+            <span class="hf-score" id="hfLendingScore">–</span>
+          </div>
+          <div class="health-factor" id="hf-trend">
+            <span class="hf-icon">&#x1F4C9;</span>
+            <div class="hf-body">
+              <div class="hf-name">Expense Trend</div>
+              <div class="hf-bar"><div class="hf-bar-fill" id="hfTrendBar"></div></div>
+            </div>
+            <span class="hf-score" id="hfTrendScore">–</span>
+          </div>
+        </div>
+        <div class="health-score-verdict" id="healthVerdict"></div>
+      </div>
+    </div>
+
+    <!-- 3. This Month's Insights -->
+    <div class="dash-section">
+      <div class="dash-section-title">This Month's Insights</div>
+      <div class="insight-grid" id="insightGrid"></div>
+      <a href="views/analytics.html" class="section-action-link">View Detailed Analysis &rarr;</a>
+    </div>
+
+    <!-- Budget Warnings -->
+    <div id="budgetWarningsSection" style="display:none;" class="dash-section">
+      <div class="dash-section-title">&#9888; Budget Warnings</div>
+      <div id="budgetWarnings" class="budget-warning-bar"></div>
+    </div>
+
+    <!-- 3. Latest Activity -->
+    <div class="dash-section">
+      <div class="dash-section-title">Latest Activity</div>
+      <div id="latestActivity" class="latest-activity"></div>
+    </div>
+
+    <!-- Recurring Added Today -->
+    <div id="recurringTodaySection" style="display:none;" class="dash-section">
+      <div class="dash-section-title">&#128260; Auto-added Today (Recurring)</div>
+      <div id="recurringToday" class="recurring-today-list"></div>
+    </div>
+
+    <!-- Export/Import -->
+    <div class="dash-section dash-section--export">
+      <button class="btn-export" onclick="exportData()">&#8659; Export JSON</button>
+      <button class="btn-export" onclick="exportCSV()" style="margin-left:8px;">&#8659; Export CSV</button>
+      <button class="btn-export" onclick="exportSeparateCSV()" style="margin-left:8px;">&#8659; Export Separate CSVs</button>
+      <button class="btn-export" onclick="importData()" style="margin-left:8px;">&#8657; Import Data</button>
+      <button class="btn-export btn-export-danger" onclick="eraseAllData()" style="margin-left:8px;">&#128465; Erase All Data</button>
+    </div>
+
+  </div>
+
+  <script src="js/utils/utils.js"></script>
+  <script src="js/storage/storageAdapter.js"></script>
+  <script src="js/data/dataService.js"></script>
+  <script src="js/services/transactionService.js"></script>
+  <script src="js/services/appState.js"></script>
+  <script src="js/utils/formatters.js"></script>
+  <script src="js/templates/templates.js"></script>
+  <script src="js/cache/selectors.js"></script>
+  <script src="js/validation/validationCore.js"></script>
+  <script src="js/validation/amountValidator.js"></script>
+  <script src="js/validation/accountValidator.js"></script>
+  <script src="js/validation/lendingValidator.js"></script>
+  <script src="js/validation/calculatorValidator.js"></script>
+  <script src="js/storage/restApiAdapter.js"></script>
+  <script src="js/services/filterService.js"></script>
+  <script src="js/services/accountService.js"></script>
+  <script src="js/components/metricCard.js"></script>
+  <script src="js/components/sectionHeader.js"></script>
+  <script src="js/components/emptyState.js"></script>
+  <script src="js/components/chartCard.js"></script>
+  <script src="js/ui/dashboard.js"></script>
+</body>
+</html>

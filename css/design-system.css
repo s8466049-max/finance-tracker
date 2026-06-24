@@ -1,0 +1,191 @@
+/* ═══════════════════════════════════════════════════════════════
+   Finance Tracker — Design System Tokens
+   Single source of truth for colors, spacing, typography, shadows.
+   Load this BEFORE styles.css.
+   ═══════════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* ── Typography ─────────────────────────────────────── */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 28px;
+  --font-size-2xl: 36px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 800;
+
+  /* ── Color Palette (Light) ──────────────────────────── */
+  --primary: #1a73e8;
+  --primary-hover: #1558b0;
+  --primary-light: rgba(26,115,232,0.08);
+  --primary-ring: rgba(26,115,232,0.18);
+  --success: #1b9e4b;
+  --success-light: rgba(27,158,75,0.08);
+  --warning: #e8780a;
+  --warning-light: rgba(232,120,10,0.08);
+  --danger: #dc3545;
+  --danger-light: rgba(220,53,69,0.08);
+  --text: #1a1a2e;
+  --text-secondary: #555d6e;
+  --text-muted: #8c93a4;
+  --text-faint: #b0b6c4;
+  --bg: #f4f6fa;
+  --bg-card: #ffffff;
+  --bg-input: #f8f9fc;
+  --border: #e2e6ef;
+  --border-light: #eef0f5;
+
+  /* ── Shadows ────────────────────────────────────────── */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+  --shadow-hover: 0 8px 25px rgba(0,0,0,0.10);
+
+  /* ── Radius ─────────────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 100px;
+
+  /* ── Spacing ────────────────────────────────────────── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* ── Motion ─────────────────────────────────────────── */
+  --transition: 0.2s ease;
+  --transition-fast: 0.12s ease;
+  --transition-slow: 0.32s ease;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 400ms;
+
+  /* ── Z-Index Scale ──────────────────────────────────── */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-toast: 900;
+  --z-modal: 1000;
+
+  /* ── Extended Spacing Scale ────────────────────────── */
+  --space-3xs: 2px;
+  --space-2xs: 6px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+
+  /* ── Extended Radius Scale ────────────────────────── */
+  --radius-xs: 4px;
+  --radius-xl: 24px;
+  --radius-circle: 50%;
+
+  /* ── Premium Shadow Scale ─────────────────────────── */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-xl: 0 20px 50px rgba(0,0,0,0.10);
+  --shadow-glow-primary: 0 0 0 4px var(--primary-ring);
+  --shadow-glow-success: 0 0 0 4px rgba(27,158,75,0.16);
+  --shadow-glow-danger:  0 0 0 4px rgba(220,53,69,0.16);
+
+  /* ── Surface Layers (light) ───────────────────────── */
+  --surface-1: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-3: #f1f4f9;
+  --surface-overlay: rgba(255,255,255,0.72);
+  --surface-glass: rgba(255,255,255,0.55);
+  --surface-glass-border: rgba(255,255,255,0.65);
+
+  /* ── Semantic Accent Tokens ───────────────────────── */
+  --accent-info: #0ea5e9;
+  --accent-info-light: rgba(14,165,233,0.10);
+  --accent-violet: #8b5cf6;
+  --accent-violet-light: rgba(139,92,246,0.10);
+  --accent-teal: #14b8a6;
+  --accent-teal-light: rgba(20,184,166,0.10);
+
+  /* ── Gradient Tokens ──────────────────────────────── */
+  --gradient-primary: linear-gradient(135deg, #1a73e8 0%, #5b9cf6 100%);
+  --gradient-success: linear-gradient(135deg, #1b9e4b 0%, #4ade80 100%);
+  --gradient-danger:  linear-gradient(135deg, #dc3545 0%, #f87171 100%);
+  --gradient-premium: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  --gradient-surface: linear-gradient(180deg, var(--surface-1) 0%, var(--surface-2) 100%);
+
+  /* ── Focus Ring ───────────────────────────────────── */
+  --focus-ring: 0 0 0 3px var(--primary-ring);
+  --focus-ring-danger: 0 0 0 3px rgba(220,53,69,0.30);
+
+  /* ── Typography Scale Extended ────────────────────── */
+  --line-height-tight: 1.15;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.55;
+  --line-height-relaxed: 1.7;
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-wide: 0.02em;
+}
+
+/* ── Color Palette (Dark) ─────────────────────────────── */
+body.dark {
+  --text: #e2e4e9;
+  --text-secondary: #a0a6b4;
+  --text-muted: #6b7280;
+  --text-faint: #4b5060;
+  --bg: #0f1117;
+  --bg-card: #1a1d27;
+  --bg-input: #22252f;
+  --border: #2e323e;
+  --border-light: #262a35;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.4);
+  --shadow-hover: 0 8px 25px rgba(0,0,0,0.35);
+  --primary: #5b9cf6;
+  --primary-hover: #7bb3ff;
+  --primary-light: rgba(91,156,246,0.1);
+  --primary-ring: rgba(91,156,246,0.15);
+  --success: #4ade80;
+  --success-light: rgba(74,222,128,0.1);
+  --warning: #fbbf24;
+  --warning-light: rgba(251,191,36,0.1);
+  --danger: #f87171;
+  --danger-light: rgba(248,113,113,0.1);
+
+  /* ── Dark Surface Layers ─────────────────────────── */
+  --surface-1: #1a1d27;
+  --surface-2: #22252f;
+  --surface-3: #2a2e3b;
+  --surface-overlay: rgba(15,17,23,0.72);
+  --surface-glass: rgba(26,29,39,0.65);
+  --surface-glass-border: rgba(255,255,255,0.06);
+
+  /* ── Dark Accents ────────────────────────────────── */
+  --accent-info: #38bdf8;
+  --accent-info-light: rgba(56,189,248,0.12);
+  --accent-violet: #a78bfa;
+  --accent-violet-light: rgba(167,139,250,0.12);
+  --accent-teal: #2dd4bf;
+  --accent-teal-light: rgba(45,212,191,0.12);
+
+  /* ── Dark Gradients ──────────────────────────────── */
+  --gradient-primary: linear-gradient(135deg, #5b9cf6 0%, #7bb3ff 100%);
+  --gradient-success: linear-gradient(135deg, #22c55e 0%, #4ade80 100%);
+  --gradient-danger:  linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  --gradient-premium: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #f472b6 100%);
+  --gradient-surface: linear-gradient(180deg, var(--surface-1) 0%, var(--surface-2) 100%);
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.30);
+  --shadow-xl: 0 20px 50px rgba(0,0,0,0.50);
+  --shadow-glow-primary: 0 0 0 4px var(--primary-ring);
+  --shadow-glow-success: 0 0 0 4px rgba(74,222,128,0.18);
+  --shadow-glow-danger:  0 0 0 4px rgba(248,113,113,0.18);
+}

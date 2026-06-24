@@ -1,0 +1,298 @@
+/* ═══════════════════════════════════════════════════════════════
+   Finance Tracker — Responsive System
+   Mobile-first overrides. Load AFTER styles.css and components.css.
+   Breakpoints:
+     - sm: ≤ 640px   (phones)
+     - md: ≤ 900px   (large phones / small tablets)
+     - lg: ≤ 1200px  (tablets / small laptops)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Container fluidity ─────────────────────────────────── */
+@media (max-width: 1200px) {
+  .container { padding-left: var(--space-lg); padding-right: var(--space-lg); }
+}
+
+/* ── Tablet / small laptop ──────────────────────────────── */
+@media (max-width: 900px) {
+  :root {
+    --font-size-2xl: 28px;
+    --font-size-xl: 22px;
+  }
+  .container { padding: var(--space-md); max-width: 100%; }
+
+  /* Card grids collapse to 2 columns */
+  .cards,
+  .cards--overview,
+  .insight-grid,
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: var(--space-md);
+  }
+
+  /* Charts: dynamic height */
+  .chart-container,
+  .chart-card,
+  canvas { max-height: 320px; }
+
+  /* Navbar wrapping */
+  nav[data-app-nav] .nav-links { flex-wrap: wrap; gap: var(--space-xs); }
+}
+
+/* ── Mobile (≤ 640px) ───────────────────────────────────── */
+@media (max-width: 640px) {
+  :root {
+    --font-size-2xl: 24px;
+    --font-size-xl: 20px;
+    --font-size-lg: 17px;
+    --space-lg: 18px;
+    --space-xl: 24px;
+  }
+
+  body { font-size: var(--font-size-sm); }
+  .container { padding: var(--space-sm) var(--space-md); }
+  h1 { font-size: var(--font-size-xl); margin-bottom: var(--space-md); }
+
+  /* Single-column card grids */
+  .cards,
+  .cards--overview,
+  .insight-grid,
+  .metric-grid,
+  .dash-indicators,
+  .dash-signals {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-sm);
+  }
+
+  .card,
+  .c-metric-card,
+  .c-chart-card,
+  .dash-section { padding: var(--space-md); border-radius: var(--radius-md); }
+
+  /* Navigation: collapsible mobile menu */
+  nav[data-app-nav] {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-sm) var(--space-md);
+  }
+  nav[data-app-nav] .nav-links {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: var(--space-xs);
+    padding-bottom: var(--space-xs);
+  }
+  nav[data-app-nav] .nav-links::-webkit-scrollbar { display: none; }
+  nav[data-app-nav] a,
+  nav[data-app-nav] .nav-link {
+    flex: 0 0 auto;
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+  }
+
+  /* Tables → stacked card layout */
+  table.responsive-table,
+  .table-stack {
+    display: block;
+    width: 100%;
+  }
+  table.responsive-table thead { display: none; }
+  table.responsive-table tbody,
+  table.responsive-table tr {
+    display: block;
+    width: 100%;
+  }
+  table.responsive-table tr {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+    box-shadow: var(--shadow-xs);
+  }
+  table.responsive-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2xs) 0;
+    border: none !important;
+    text-align: right;
+  }
+  table.responsive-table td::before {
+    content: attr(data-label);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+    text-align: left;
+    margin-right: var(--space-md);
+  }
+
+  /* Forms / inputs become full-width */
+  input, select, textarea, button { font-size: 16px; /* prevent iOS zoom */ }
+  .form-row,
+  .filter-bar { flex-direction: column; align-items: stretch; gap: var(--space-sm); }
+  .filter-bar > * { width: 100%; }
+
+  /* Modals: full-bleed on mobile */
+  .modal,
+  .modal-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    margin: 0;
+  }
+
+  /* Touch targets */
+  button, .btn, a.card-action, .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Charts shrink */
+  .chart-container,
+  .chart-card,
+  canvas { max-height: 240px; }
+
+  /* Export bar wraps */
+  .dash-section--export { display: flex; flex-direction: column; gap: var(--space-sm); }
+  .dash-section--export .btn-export { margin-left: 0 !important; width: 100%; }
+}
+
+/* ── Very small screens (≤ 380px) ───────────────────────── */
+@media (max-width: 380px) {
+  :root { --font-size-2xl: 22px; }
+  .container { padding: var(--space-xs) var(--space-sm); }
+  .card .amount,
+  .c-metric-card__value { font-size: var(--font-size-lg); }
+}
+
+/* ── Health Score: stack on narrow screens ──────────────── */
+@media (max-width: 640px) {
+  .health-score-wrap {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+  .health-score-factors { width: 100%; }
+  .health-score-verdict { text-align: center; }
+
+  /* Investment table column hiding */
+  .inv-hide-mobile { display: none !important; }
+
+  /* Lending timeline compact */
+  .lending-timeline-item { flex-direction: column; gap: var(--space-sm); }
+
+  /* Analytics charts single column */
+  .chart-grid { grid-template-columns: 1fr !important; }
+
+  /* Calculator: single column always */
+  .calc-layout { grid-template-columns: 1fr !important; }
+  .calc-metric-grid { grid-template-columns: 1fr 1fr !important; }
+  .calc-metric-hero .calc-metric-value { font-size: 28px; }
+  .calc-selector { grid-template-columns: 1fr 1fr !important; }
+  .calc-selector-narrow { grid-template-columns: 1fr 1fr !important; }
+
+  /* Budget items compact */
+  .budget-header { flex-wrap: wrap; }
+
+  /* Forms: stack inputs */
+  .form-group input,
+  .form-group select { flex: 1 1 100%; min-width: 0; }
+  .form-group button { width: 100%; }
+
+  /* Insight grid single col */
+  .insight-grid { grid-template-columns: 1fr !important; }
+
+  /* Filter row stacks */
+  .filter-row { flex-direction: column; align-items: stretch; }
+  .filter-row-group { width: 100%; }
+  .filter-range { flex-wrap: wrap; }
+  .filter-range input[type="date"] { flex: 1 1 120px; }
+
+  /* Investment tabs: horizontal scroll */
+  .inv-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+  }
+  .inv-tabs::-webkit-scrollbar { display: none; }
+  .inv-tab {
+    flex-shrink: 0;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+/* ── Tablet improvements (641–900px) ────────────────────── */
+@media (min-width: 641px) and (max-width: 900px) {
+  .cards--overview { grid-template-columns: repeat(2, 1fr) !important; }
+  .insight-grid    { grid-template-columns: repeat(2, 1fr) !important; }
+  .health-score-factors { min-width: 0; }
+
+  /* Calculator two-col but narrower */
+  .calc-layout { grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+}
+
+/* ── Navigation mobile: hamburger-style scroll ──────────── */
+@media (max-width: 768px) {
+  nav[data-app-nav] {
+    padding: 0 var(--space-md);
+    height: auto;
+    min-height: 48px;
+  }
+  nav[data-app-nav] > div {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 2px;
+    padding: 8px 0;
+  }
+  nav[data-app-nav] > div::-webkit-scrollbar { display: none; }
+  nav[data-app-nav] a {
+    font-size: 12.5px;
+    padding: 6px 12px;
+    white-space: nowrap;
+    border-radius: var(--radius-pill);
+  }
+  .nav-group-btn {
+    font-size: 12.5px;
+    padding: 6px 12px;
+    white-space: nowrap;
+  }
+  .btn-dark-toggle {
+    padding: 5px 12px;
+    font-size: 12px;
+    margin-left: var(--space-sm);
+    flex-shrink: 0;
+  }
+}
+
+/* ── Print ──────────────────────────────────────────────── */
+@media print {
+  nav, .btn-export, .filter-bar, .modal { display: none !important; }
+  body { background: #fff; color: #000; }
+  .card, .dash-section { box-shadow: none; border: 1px solid #ddd; }
+}
+
+/* ── Reduced-motion preference ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
