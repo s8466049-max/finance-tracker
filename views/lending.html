@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Tracker – Money Given</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav data-app-nav data-active="lending" data-base-path="views"></nav>
+  <script src="../js/components/navbar.js"></script>
+
+  <div class="container">
+    <h1>Money Given</h1>
+
+    <!-- Lending Signals -->
+    <div class="lending-signals" id="lendingSignals"></div>
+
+    <!-- Summary Cards -->
+    <div class="cards">
+      <div class="card balance">
+        <h3>Total Given</h3>
+        <div class="amount" id="totalLent">&#8377;0</div>
+      </div>
+      <div class="card expense">
+        <h3>Remaining</h3>
+        <div class="amount" id="totalPending">&#8377;0</div>
+      </div>
+      <div class="card income">
+        <h3>Total Returned</h3>
+        <div class="amount" id="totalRecovered">&#8377;0</div>
+      </div>
+    </div>
+
+    <!-- Add Lending Form -->
+    <div class="dash-section">
+      <div class="dash-section-title">Give Money</div>
+      <div class="form-group">
+        <input id="lendPerson" placeholder="Person Name (e.g. Rahul)" maxlength="40">
+        <input id="lendAmount" placeholder="Amount (&#8377;)" type="number" min="1" step="0.01">
+        <select id="lendAccount"></select>
+        <input id="lendDate" type="date">
+        <button onclick="addNewLending()">Give Money</button>
+      </div>
+    </div>
+
+    <!-- Record Return Form (hidden by default) -->
+    <div class="dash-section" id="returnSection" style="display:none;">
+      <div class="dash-section-title" id="returnTitle">Record Return</div>
+      <div class="form-group">
+        <input id="returnAmount" placeholder="Amount Returned (&#8377;)" type="number" min="1" step="0.01">
+        <select id="returnAccount"></select>
+        <input id="returnDate" type="date">
+        <button onclick="recordReturn()">Record Return</button>
+        <button class="btn-cancel" onclick="cancelReturn()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all" onclick="setLendFilter('all')">All</button>
+      <button class="filter-btn" data-filter="pending" onclick="setLendFilter('pending')">Pending</button>
+      <button class="filter-btn" data-filter="completed" onclick="setLendFilter('completed')">Completed</button>
+    </div>
+
+    <!-- Lending List -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Person</th>
+            <th>Given</th>
+            <th>Returned</th>
+            <th>Remaining</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="lendingBody"></tbody>
+      </table>
+      <p class="empty-msg" id="lendingEmpty" style="display:none;">No lending records yet.</p>
+    </div>
+
+    <!-- Drilldown: Transaction History -->
+    <div id="paymentHistory" class="dash-section lending-history-section" style="display:none;">
+      <div class="dash-section-title" id="paymentHistoryTitle">Transaction History</div>
+      <div class="lending-history-summary" id="histSummary"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Account</th>
+            </tr>
+          </thead>
+          <tbody id="paymentHistoryBody"></tbody>
+        </table>
+        <p class="empty-msg" id="historyEmpty" style="display:none;">No transactions yet.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/utils/utils.js"></script>
+  <script src="../js/storage/storageAdapter.js"></script>
+  <script src="../js/components/metricCard.js"></script>
+  <script src="../js/components/sectionHeader.js"></script>
+  <script src="../js/components/emptyState.js"></script>
+  <script src="../js/components/chartCard.js"></script>
+  <script src="../js/data/dataService.js"></script>
+  <script src="../js/services/transactionService.js"></script>
+  <script src="../js/services/appState.js"></script>
+  <script src="../js/utils/formatters.js"></script>
+  <script src="../js/templates/templates.js"></script>
+  <script src="../js/cache/selectors.js"></script>
+  <script src="../js/validation/validationCore.js"></script>
+  <script src="../js/validation/amountValidator.js"></script>
+  <script src="../js/validation/accountValidator.js"></script>
+  <script src="../js/validation/lendingValidator.js"></script>
+  <script src="../js/validation/calculatorValidator.js"></script>
+  <script src="../js/storage/restApiAdapter.js"></script>
+  <script src="../js/services/filterService.js"></script>
+  <script src="../js/services/accountService.js"></script>
+  <script src="../js/ui/lending.js"></script>
+</body>
+</html>

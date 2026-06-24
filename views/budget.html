@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Tracker – Budget</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav data-app-nav data-active="budget" data-base-path="views"></nav>
+  <script src="../js/components/navbar.js"></script>
+
+  <div class="container">
+    <h1>Budget</h1>
+
+    <div class="form-group">
+      <select id="budgetCategory">
+        <option value="">Select Category</option>
+      </select>
+      <input id="budgetAmount" type="number" min="0" step="0.01" placeholder="Monthly limit (₹)">
+      <button onclick="setBudgetFromForm()">Set Budget</button>
+    </div>
+
+    <div id="budgetList"></div>
+  </div>
+
+  <script src="../js/utils/utils.js"></script>
+  <script src="../js/storage/storageAdapter.js"></script>
+  <script src="../js/components/metricCard.js"></script>
+  <script src="../js/components/sectionHeader.js"></script>
+  <script src="../js/components/emptyState.js"></script>
+  <script src="../js/components/chartCard.js"></script>
+  <script src="../js/data/dataService.js"></script>
+  <script src="../js/services/transactionService.js"></script>
+  <script src="../js/services/appState.js"></script>
+  <script src="../js/utils/formatters.js"></script>
+  <script src="../js/templates/templates.js"></script>
+  <script src="../js/cache/selectors.js"></script>
+  <script src="../js/validation/validationCore.js"></script>
+  <script src="../js/validation/amountValidator.js"></script>
+  <script src="../js/validation/accountValidator.js"></script>
+  <script src="../js/validation/lendingValidator.js"></script>
+  <script src="../js/validation/calculatorValidator.js"></script>
+  <script src="../js/storage/restApiAdapter.js"></script>
+  <script src="../js/services/filterService.js"></script>
+  <script src="../js/services/accountService.js"></script>
+  <script src="../js/ui/budget.js"></script>
+</body>
+</html>

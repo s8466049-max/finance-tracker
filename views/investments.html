@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Tracker – Investments</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav data-app-nav data-active="investments" data-base-path="views"></nav>
+  <script src="../js/components/navbar.js"></script>
+
+  <div class="container">
+    <h1>Investments</h1>
+
+    <!-- Summary Cards -->
+    <div class="cards" style="margin-bottom:24px;">
+      <div class="card balance">
+        <h3>Total Invested</h3>
+        <div class="amount" id="invTotalInvested">&#8377;0</div>
+      </div>
+      <div class="card income">
+        <h3>Current Value</h3>
+        <div class="amount" id="invCurrentValue">&#8377;0</div>
+      </div>
+      <div class="card savings" id="invGainCard">
+        <h3>Total Gain</h3>
+        <div class="amount" id="invTotalGain">&#8377;0</div>
+      </div>
+      <div class="card" id="invReturnCard">
+        <h3>Overall Return</h3>
+        <div class="amount" id="invOverallReturn">0%</div>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="inv-tabs">
+      <button class="inv-tab inv-tab--active" onclick="switchInvestmentTab('mutual-funds')" data-tab="mutual-funds">Mutual Funds</button>
+      <button class="inv-tab" onclick="switchInvestmentTab('fixed-deposits')" data-tab="fixed-deposits">Fixed Deposits</button>
+      <button class="inv-tab" onclick="switchInvestmentTab('recurring-deposits')" data-tab="recurring-deposits">Recurring Deposits</button>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!-- TAB 1: MUTUAL FUNDS -->
+    <!-- ════════════════════════════════════════════════════════════════ -->
+    <div id="tab-mutual-funds" class="inv-tab-content inv-tab-content--active">
+
+    <!-- Add / Edit Investment -->
+    <div class="dash-section">
+      <div class="dash-section-title" id="invFormTitle">Add Investment</div>
+      <div class="form-group investment-form">
+        <div class="field-wrap">
+          <label class="field-label">Fund / Asset Name</label>
+          <input id="invFundName" placeholder="e.g. Mirae Asset Large Cap" maxlength="80">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Fund Type</label>
+          <select id="invFundType">
+            <option value="">-- Select Type --</option>
+            <option value="Large Cap">Large Cap</option>
+            <option value="Mid Cap">Mid Cap</option>
+            <option value="Small Cap">Small Cap</option>
+            <option value="Flexi Cap">Flexi Cap</option>
+            <option value="Index">Index</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="Debt">Debt</option>
+            <option value="Sectoral">Sectoral</option>
+            <option value="International Funds">International Funds</option>
+            <option value="ETF">ETF</option>
+            <option value="REIT">REIT</option>
+            <option value="NPS">NPS</option>
+            <option value="PPF">PPF</option>
+            <option value="Stocks">Stocks</option>
+            <option value="Gold">Gold</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Invested Amount (₹)</label>
+          <input id="invInvestedAmount" placeholder="e.g. 50000" type="number" min="0" step="0.01">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Current Value (₹)</label>
+          <input id="invCurrentValueInput" placeholder="e.g. 58000" type="number" min="0" step="0.01">
+        </div>
+        <button id="invSubmitBtn" onclick="addOrUpdateInvestment()">Add Investment</button>
+        <button id="invCancelBtn" class="btn-cancel" onclick="cancelEditInvestment()" style="display:none;">Cancel</button>
+      </div>
+      <details class="form-advanced">
+        <summary>Advanced Options</summary>
+        <div class="form-advanced-body investment-advanced-grid">
+          <div class="field-wrap">
+            <label class="field-label">Units / Quantity</label>
+            <input id="invUnits" placeholder="e.g. 125.5" type="number" min="0" step="0.001">
+          </div>
+          <div class="field-wrap">
+            <label class="field-label">Purchase Date</label>
+            <input id="invDate" type="date">
+          </div>
+          <div class="field-wrap">
+            <label class="field-label">SIP Amount (₹)</label>
+            <input id="invSIPAmount" placeholder="e.g. 2500" type="number" min="0" step="0.01">
+          </div>
+          <div class="field-wrap">
+            <label class="field-label">SIP Day of Month</label>
+            <input id="invSIPDate" placeholder="1-31" type="number" min="1" max="31">
+          </div>
+          <div class="field-wrap">
+            <label class="field-label">Notes</label>
+            <input id="invNotes" placeholder="Optional notes" maxlength="200">
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Investment Table -->
+    <div class="dash-section">
+      <div class="dash-section-title">Your Portfolio</div>
+      <div class="table-wrap">
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Fund / Asset</th>
+              <th>Type</th>
+              <th>Invested</th>
+              <th>Current Value</th>
+              <th>Gain / Loss</th>
+              <th>Return %</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="invList"></tbody>
+        </table>
+        <p class="empty-msg" id="invEmptyMsg">No investments yet. Add your first fund above.</p>
+      </div>
+    </div>
+
+    </div><!-- End TAB 1: MUTUAL FUNDS -->
+
+    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!-- TAB 2: FIXED DEPOSITS -->
+    <!-- ════════════════════════════════════════════════════════════════ -->
+    <div id="tab-fixed-deposits" class="inv-tab-content">
+
+    <!-- Fixed Deposits Section -->
+    <div class="dash-section">
+      <div class="dash-section-title">Fixed Deposits</div>
+      <div class="form-group investment-form">
+        <div class="field-wrap">
+          <label class="field-label">Bank Name</label>
+          <input id="fdBankName" placeholder="e.g. HDFC Bank" maxlength="60">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Deposit Amount (₹)</label>
+          <input id="fdAmount" placeholder="e.g. 100000" type="number" min="0" step="0.01">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Interest Rate (% p.a.)</label>
+          <input id="fdRate" placeholder="e.g. 7.5" type="number" min="0" step="0.01" max="20">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Start Date</label>
+          <input id="fdStartDate" type="date" onchange="calculateFDMaturityDate()">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Tenure (months)</label>
+          <input id="fdTenure" placeholder="e.g. 12" type="number" min="1" step="1" onchange="calculateFDMaturityDate()">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Maturity Date <span style="font-weight:400;color:var(--text-faint);">(auto-calculated)</span></label>
+          <input id="fdMaturityDate" type="date" onchange="calculateFDTenure()">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Interest Type</label>
+          <select id="fdInterestType">
+            <option value="">-- Select Type --</option>
+            <option value="Simple">Simple</option>
+            <option value="Compound">Compound</option>
+          </select>
+        </div>
+        <button id="fdSubmitBtn" onclick="addOrUpdateFD()">Add FD</button>
+        <button id="fdCancelBtn" class="btn-cancel" onclick="cancelEditFD()" style="display:none;">Cancel</button>
+      </div>
+      <details class="form-advanced">
+        <summary>Advanced Options</summary>
+        <div class="form-advanced-body investment-advanced-grid">
+          <div class="field-wrap">
+            <label class="field-label">Notes</label>
+            <input id="fdNotes" placeholder="Optional notes" maxlength="200">
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Fixed Deposits Table -->
+    <div class="dash-section">
+      <div class="dash-section-title">FD Portfolio</div>
+      <div class="table-wrap">
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Bank</th>
+              <th>Principal</th>
+              <th>Interest</th>
+              <th>Maturity Date</th>
+              <th>Maturity Value</th>
+              <th>Days Remaining</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="fdList"></tbody>
+        </table>
+        <p class="empty-msg" id="fdEmptyMsg">No fixed deposits yet. Add one above.</p>
+      </div>
+    </div>
+
+    </div><!-- End TAB 2: FIXED DEPOSITS -->
+
+    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!-- TAB 3: RECURRING DEPOSITS -->
+    <!-- ════════════════════════════════════════════════════════════════ -->
+    <div id="tab-recurring-deposits" class="inv-tab-content">
+
+    <!-- Recurring Deposits Section -->
+    <div class="dash-section">
+      <div class="dash-section-title">Recurring Deposits</div>
+      <div class="form-group investment-form">
+        <div class="field-wrap">
+          <label class="field-label">Bank Name</label>
+          <input id="rdBankName" placeholder="e.g. SBI" maxlength="60">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Monthly Deposit (₹)</label>
+          <input id="rdMonthlyDeposit" placeholder="e.g. 5000" type="number" min="0" step="0.01">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Interest Rate (% p.a.)</label>
+          <input id="rdRate" placeholder="e.g. 6.5" type="number" min="0" step="0.01" max="20">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Tenure (months)</label>
+          <input id="rdTenure" placeholder="e.g. 12" type="number" min="1" step="1">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Start Date</label>
+          <input id="rdStartDate" type="date">
+        </div>
+        <button id="rdSubmitBtn" onclick="addOrUpdateRD()">Add RD</button>
+        <button id="rdCancelBtn" class="btn-cancel" onclick="cancelEditRD()" style="display:none;">Cancel</button>
+      </div>
+      <details class="form-advanced">
+        <summary>Advanced Options</summary>
+        <div class="form-advanced-body investment-advanced-grid">
+          <div class="field-wrap">
+            <label class="field-label">Notes</label>
+            <input id="rdNotes" placeholder="Optional notes" maxlength="200">
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Recurring Deposits Table -->
+    <div class="dash-section">
+      <div class="dash-section-title">RD Portfolio</div>
+      <div class="table-wrap">
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Bank</th>
+              <th>Monthly Deposit</th>
+              <th>Deposited Till Date</th>
+              <th>Months Remaining</th>
+              <th>Expected Maturity</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="rdList"></tbody>
+        </table>
+        <p class="empty-msg" id="rdEmptyMsg">No recurring deposits yet. Add one above.</p>
+      </div>
+    </div>
+
+    </div><!-- End TAB 3: RECURRING DEPOSITS -->
+
+    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!-- CHARTS & INSIGHTS (Outside Tabs) -->
+    <!-- ════════════════════════════════════════════════════════════════ -->
+
+    <!-- Charts -->
+    <div class="chart-grid" id="invChartsSection" style="display:none; margin-top:32px;">
+      <div class="chart-box">
+        <p class="chart-title">Investment Type Allocation (MF/FD/RD)</p>
+        <canvas id="invAllocationChart" height="260"></canvas>
+      </div>
+      <div class="chart-box">
+        <p class="chart-title">Mutual Fund Performance (Return %)</p>
+        <canvas id="invPerformanceChart" height="260"></canvas>
+      </div>
+    </div>
+
+    <!-- Investment Insights -->
+    <div id="invInsightSection" style="display:none;" class="dash-section">
+      <div class="dash-section-title">Investment Insights</div>
+      <div id="invInsightGrid" class="inv-insight-grid"></div>
+    </div>
+
+    <div id="invTimelineSection" style="display:none;" class="dash-section">
+      <div class="dash-section-title">Maturity Timeline</div>
+      <div id="invTimelineList" class="inv-timeline"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../js/utils/utils.js"></script>
+  <script src="../js/storage/storageAdapter.js"></script>
+  <script src="../js/components/metricCard.js"></script>
+  <script src="../js/components/sectionHeader.js"></script>
+  <script src="../js/components/emptyState.js"></script>
+  <script src="../js/components/chartCard.js"></script>
+  <script src="../js/charts/chartFactory.js"></script>
+  <script src="../js/data/dataService.js"></script>
+  <script src="../js/services/transactionService.js"></script>
+  <script src="../js/services/appState.js"></script>
+  <script src="../js/utils/formatters.js"></script>
+  <script src="../js/templates/templates.js"></script>
+  <script src="../js/cache/selectors.js"></script>
+  <script src="../js/validation/validationCore.js"></script>
+  <script src="../js/validation/amountValidator.js"></script>
+  <script src="../js/validation/accountValidator.js"></script>
+  <script src="../js/validation/lendingValidator.js"></script>
+  <script src="../js/validation/calculatorValidator.js"></script>
+  <script src="../js/storage/restApiAdapter.js"></script>
+  <script src="../js/services/filterService.js"></script>
+  <script src="../js/services/accountService.js"></script>
+  <script src="../js/ui/investments.js"></script>
+</body>
+</html>

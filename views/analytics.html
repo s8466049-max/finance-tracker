@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Tracker – Analytics</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav data-app-nav data-active="analytics" data-base-path="views"></nav>
+  <script src="../js/components/navbar.js"></script>
+
+  <div class="container">
+    <h1>Analytics</h1>
+
+    <div class="analytics-nlp" id="analyticsNLP"></div>
+
+    <div class="analytics-summary" id="analyticsSummary"></div>
+
+    <div class="chart-grid">
+      <div class="chart-box">
+        <p class="chart-title">Monthly Expenses</p>
+        <canvas id="monthlyChart"></canvas>
+        <p class="empty-msg" id="monthlyEmpty" style="display:none;">No expense data yet.</p>
+      </div>
+      <div class="chart-box">
+        <p class="chart-title">Category Breakdown
+          <select id="catMonthSelect" onchange="renderCategoryChart()" style="margin-left:10px;font-size:13px;border:1px solid #ddd;border-radius:6px;padding:3px 8px;"></select>
+        </p>
+        <canvas id="categoryChart"></canvas>
+        <p class="empty-msg" id="categoryEmpty" style="display:none;">No expenses this month.</p>
+      </div>
+    </div>
+
+    <!-- Spending by Payment Method (Detailed Analysis) -->
+    <details class="expandable-section">
+      <summary class="expandable-header">View Detailed Analysis — Spending by Payment Method</summary>
+      <div class="expandable-body">
+        <div class="analytics-section" style="margin-top:0;">
+
+      <div class="acct-chart-filters">
+        <div class="acct-filter-group">
+          <label class="acct-filter-label">Period</label>
+          <select id="acctPeriod" onchange="onAcctFilterChange()">
+            <option value="this-month">This Month</option>
+            <option value="last-month">Last Month</option>
+            <option value="all">All Time</option>
+            <option value="custom">Custom Range</option>
+          </select>
+        </div>
+        <div class="acct-filter-group acct-custom-range" id="acctCustomRange" style="display:none;">
+          <input type="date" id="acctFrom">
+          <span>to</span>
+          <input type="date" id="acctTo">
+          <button class="filter-btn" onclick="onAcctFilterChange()">Apply</button>
+        </div>
+        <div class="acct-filter-group">
+          <label class="acct-filter-label">Payment Method</label>
+          <select id="acctTypeFilter" onchange="onAcctFilterChange()">
+            <option value="">All Methods</option>
+            <option value="credit">Credit Card</option>
+            <option value="bank">Bank Account</option>
+            <option value="cash">Cash</option>
+            <option value="none">Unassigned</option>
+          </select>
+        </div>
+        <div class="acct-filter-group">
+          <label class="acct-filter-label">Account</label>
+          <select id="acctSpecific" onchange="onAcctFilterChange()"></select>
+        </div>
+      </div>
+
+      <div class="acct-summary-cards" id="acctSummaryCards"></div>
+
+      <div class="chart-grid">
+        <div class="chart-box">
+          <p class="chart-title">By Payment Method</p>
+          <canvas id="acctTypeChart"></canvas>
+          <p class="empty-msg" id="acctChartEmpty" style="display:none;">No expense data for this period.</p>
+        </div>
+        <div class="chart-box">
+          <p class="chart-title">By Individual Account</p>
+          <canvas id="acctNameChart"></canvas>
+          <p class="empty-msg" id="acctNameChartEmpty" style="display:none;">No expense data for this period.</p>
+        </div>
+      </div>
+
+      <div class="acct-drilldown" id="acctDrilldown" style="display:none;">
+        <h3 class="acct-drilldown-title" id="acctDrilldownTitle">Transactions</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Account</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody id="acctDrilldownBody"></tbody>
+          </table>
+          <div id="acctDrilldownTotal" class="table-total"></div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../js/utils/utils.js"></script>
+  <script src="../js/storage/storageAdapter.js"></script>
+  <script src="../js/components/metricCard.js"></script>
+  <script src="../js/components/sectionHeader.js"></script>
+  <script src="../js/components/emptyState.js"></script>
+  <script src="../js/components/chartCard.js"></script>
+  <script src="../js/charts/chartFactory.js"></script>
+  <script src="../js/data/dataService.js"></script>
+  <script src="../js/services/transactionService.js"></script>
+  <script src="../js/services/appState.js"></script>
+  <script src="../js/utils/formatters.js"></script>
+  <script src="../js/templates/templates.js"></script>
+  <script src="../js/cache/selectors.js"></script>
+  <script src="../js/validation/validationCore.js"></script>
+  <script src="../js/validation/amountValidator.js"></script>
+  <script src="../js/validation/accountValidator.js"></script>
+  <script src="../js/validation/lendingValidator.js"></script>
+  <script src="../js/validation/calculatorValidator.js"></script>
+  <script src="../js/storage/restApiAdapter.js"></script>
+  <script src="../js/services/filterService.js"></script>
+  <script src="../js/services/accountService.js"></script>
+  <script src="../js/ui/analytics.js"></script>
+</body>
+</html>

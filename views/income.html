@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Tracker – Income</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav data-app-nav data-active="income" data-base-path="views"></nav>
+  <script src="../js/components/navbar.js"></script>
+
+  <div class="container">
+    <h1>Income</h1>
+
+    <!-- Quick Add Income -->
+    <details class="expandable-section">
+      <summary class="expandable-header">Quick Add Income</summary>
+      <div class="expandable-body">
+        <div class="quick-add-bar" id="incQuickAddBar"></div>
+        <div class="quick-add-manage" style="grid-template-columns: auto 1fr 1fr auto;">
+          <span class="quick-add-manage-label">New preset</span>
+          <input type="number" id="incQaAmount" placeholder="Amount" min="1">
+          <input type="text" id="incQaSource" placeholder="Source (e.g. Freelance)" maxlength="30">
+          <button class="qa-save-btn" onclick="saveIncomePreset()">+ Save</button>
+        </div>
+      </div>
+    </details>
+
+    <div class="form-group">
+      <input id="incomeAmount" placeholder="Amount (&#8377;)" type="number" min="0" step="0.01">
+      <input id="incomeSource" placeholder="Source (e.g. Salary)">
+      <button id="submitBtn" onclick="addIncome()">Add Income</button>
+      <button id="cancelBtn" class="btn-cancel" onclick="cancelEdit()" style="display:none;">Cancel</button>
+    </div>
+    <details class="form-advanced">
+      <summary>Advanced Options</summary>
+      <div class="form-advanced-body">
+        <select id="incAccount"></select>
+        <div id="incAccountFeedback" class="account-feedback"></div>
+        <input id="incomeDate" type="date">
+        <p class="form-hint">💡 Tip: selecting an account improves tracking</p>
+      </div>
+    </details>
+
+    <div class="filter-row">
+      <div class="filter-row-group">
+        <label class="filter-row-label">Period</label>
+        <select id="filterPeriod" onchange="setFilter(this.value)">
+          <option value="this-month" selected>This Month</option>
+          <option value="last-month">Last Month</option>
+          <option value="all">All</option>
+          <option value="custom">Custom Range</option>
+        </select>
+      </div>
+      <span class="filter-range" id="rangeInputs">
+        <input type="date" id="filterFrom">
+        <span>to</span>
+        <input type="date" id="filterTo">
+        <button class="filter-btn" onclick="applyCustomRange()">Apply</button>
+      </span>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search by source or date…" oninput="debouncedIncomeSearch(this.value)">
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Source</th>
+            <th>Payment Method</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="incomeList"></tbody>
+      </table>
+      <p class="empty-msg" id="emptyMsg">No income entries yet.</p>
+      <div id="incomeTotal" class="table-total"></div>
+    </div>
+  </div>
+
+  <script src="../js/utils/utils.js"></script>
+  <script src="../js/storage/storageAdapter.js"></script>
+  <script src="../js/components/metricCard.js"></script>
+  <script src="../js/components/sectionHeader.js"></script>
+  <script src="../js/components/emptyState.js"></script>
+  <script src="../js/components/chartCard.js"></script>
+  <script src="../js/data/dataService.js"></script>
+  <script src="../js/services/transactionService.js"></script>
+  <script src="../js/services/appState.js"></script>
+  <script src="../js/utils/formatters.js"></script>
+  <script src="../js/templates/templates.js"></script>
+  <script src="../js/cache/selectors.js"></script>
+  <script src="../js/validation/validationCore.js"></script>
+  <script src="../js/validation/amountValidator.js"></script>
+  <script src="../js/validation/accountValidator.js"></script>
+  <script src="../js/validation/lendingValidator.js"></script>
+  <script src="../js/validation/calculatorValidator.js"></script>
+  <script src="../js/storage/restApiAdapter.js"></script>
+  <script src="../js/services/filterService.js"></script>
+  <script src="../js/services/filterStateService.js"></script>
+  <script src="../js/services/incomeService.js"></script>
+  <script src="../js/services/accountService.js"></script>
+  <script src="../js/ui/income.js"></script>
+</body>
+</html>

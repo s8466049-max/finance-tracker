@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Tracker – Calculators</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/calculators.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav data-app-nav data-active="calculators" data-base-path="views"></nav>
+  <script src="../js/components/navbar.js"></script>
+
+  <div class="container calc-page">
+
+    <!-- ═══ SELECTOR CARDS ═══ -->
+    <div class="calc-group">
+      <div class="calc-group-label">Investments</div>
+      <div class="calc-selector" role="tablist" aria-label="Investment calculators">
+        <button class="calc-tile is-active" data-target="sip" role="tab" aria-selected="true" aria-controls="panel-sip">
+          <span class="calc-tile-check" aria-hidden="true">&#10003;</span>
+          <div class="calc-tile-icon" aria-hidden="true">&#128181;</div>
+          <div class="calc-tile-title">SIP Calculator</div>
+          <div class="calc-tile-desc">Project growth of monthly investments</div>
+        </button>
+        <button class="calc-tile tile-goal" data-target="goal" role="tab" aria-selected="false" aria-controls="panel-goal">
+          <span class="calc-tile-check" aria-hidden="true">&#10003;</span>
+          <div class="calc-tile-icon" aria-hidden="true">&#127919;</div>
+          <div class="calc-tile-title">Goal SIP</div>
+          <div class="calc-tile-desc">Find the SIP needed to reach a target</div>
+        </button>
+        <button class="calc-tile tile-lump" data-target="lump" role="tab" aria-selected="false" aria-controls="panel-lump">
+          <span class="calc-tile-check" aria-hidden="true">&#10003;</span>
+          <div class="calc-tile-icon" aria-hidden="true">&#127793;</div>
+          <div class="calc-tile-title">Lump Sum</div>
+          <div class="calc-tile-desc">Compound a one-time investment</div>
+        </button>
+        <button class="calc-tile tile-swp" data-target="swp" role="tab" aria-selected="false" aria-controls="panel-swp">
+          <span class="calc-tile-check" aria-hidden="true">&#10003;</span>
+          <div class="calc-tile-icon" aria-hidden="true">&#128176;</div>
+          <div class="calc-tile-title">SWP Calculator</div>
+          <div class="calc-tile-desc">Plan systematic withdrawals</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="calc-group">
+      <div class="calc-group-label">Loan &amp; Tax</div>
+      <div class="calc-selector calc-selector-narrow" role="tablist" aria-label="Loan and tax calculators">
+        <button class="calc-tile tile-emi" data-target="emi" role="tab" aria-selected="false" aria-controls="panel-emi">
+          <span class="calc-tile-check" aria-hidden="true">&#10003;</span>
+          <div class="calc-tile-icon" aria-hidden="true">&#127968;</div>
+          <div class="calc-tile-title">EMI Calculator</div>
+          <div class="calc-tile-desc">Plan loan instalments &amp; interest</div>
+        </button>
+        <button class="calc-tile tile-tax" data-target="tax" role="tab" aria-selected="false" aria-controls="panel-tax">
+          <span class="calc-tile-check" aria-hidden="true">&#10003;</span>
+          <div class="calc-tile-icon" aria-hidden="true">&#128221;</div>
+          <div class="calc-tile-title">Income Tax</div>
+          <div class="calc-tile-desc">Compare regimes &amp; plan deductions</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ SIP PANEL ═══ -->
+    <section class="calc-panel is-active" id="panel-sip" role="tabpanel">
+      <div class="calc-layout">
+        <!-- Inputs -->
+        <div class="calc-card-block">
+          <div class="calc-block-title">Inputs</div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Monthly Investment</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="sipMonthly" value="10000" min="500" step="500" aria-label="Monthly SIP investment amount in rupees">
+            </div>
+            <input type="range" id="sipMonthlySlider" min="500" max="200000" step="500" value="10000" aria-label="Monthly investment slider">
+            <div class="calc-field-helper">Amount you invest each month</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Expected Return</span>
+              <span class="calc-field-value" id="sipRateLabel">12.0%</span>
+            </div>
+            <input type="number" id="sipRate" value="12" min="1" max="30" step="0.5" aria-label="Expected annual return percentage">
+            <input type="range" id="sipRateSlider" min="1" max="30" step="0.5" value="12" aria-label="Expected return slider">
+            <div class="calc-field-helper">Long-term equity return estimate (typically 10–14%)</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Duration</span>
+              <span class="calc-field-value" id="sipYearsLabel">10 yrs</span>
+            </div>
+            <input type="number" id="sipYears" value="10" min="1" max="40" step="1" aria-label="Investment duration in years">
+            <input type="range" id="sipYearsSlider" min="1" max="40" step="1" value="10" aria-label="Duration slider">
+            <div class="calc-field-helper">Investment period in years</div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="calc-card-block">
+          <div class="calc-block-title">Projection</div>
+
+          <div class="calc-metric-hero">
+            <div class="calc-metric-label">Maturity Value</div>
+            <div class="calc-metric-value" id="sipMaturity">&#8377;0</div>
+          </div>
+
+          <div class="calc-metric-grid">
+            <div class="calc-metric">
+              <span class="calc-metric-icon icon-blue" title="Total Invested">&#128181;</span>
+              <div class="calc-metric-label">Invested</div>
+              <div class="calc-metric-value" id="sipInvested">&#8377;0</div>
+            </div>
+            <div class="calc-metric">
+              <span class="calc-metric-icon icon-green" title="Estimated Returns">&#128200;</span>
+              <div class="calc-metric-label">Estimated Returns</div>
+              <div class="calc-metric-value is-success" id="sipReturns">&#8377;0</div>
+            </div>
+          </div>
+
+          <div class="calc-insight" id="sipInsight">
+            <div class="calc-insight-icon">i</div>
+            <div class="calc-insight-text">Adjust the inputs to see your projection.</div>
+          </div>
+          <div style="margin-top:16px;">
+            <button class="btn btn-secondary" onclick="saveSIPToInvestments()" style="width:100%;font-size:13px;">&#128190; Save as Mutual Fund Investment</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-chart-card">
+        <div class="calc-chart-head">
+          <div class="calc-chart-title">Wealth Growth Over Time</div>
+          <div class="calc-chart-legend">
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1a73e8"></span>Invested</span>
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1b9e4b"></span>Projected Value</span>
+          </div>
+        </div>
+        <div class="calc-chart-wrap">
+          <canvas id="sipChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ GOAL SIP PANEL ═══ -->
+    <section class="calc-panel" id="panel-goal" role="tabpanel">
+      <div class="calc-layout">
+        <div class="calc-card-block">
+          <div class="calc-block-title">Inputs</div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Goal Amount</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="goalAmount" value="1000000" min="10000" step="10000" aria-label="Goal amount in rupees">
+            </div>
+            <input type="range" id="goalAmountSlider" min="10000" max="50000000" step="10000" value="1000000" aria-label="Goal amount slider">
+            <div class="calc-field-helper">Target corpus you want to build</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Years to Goal</span>
+              <span class="calc-field-value" id="goalYearsLabel">10 yrs</span>
+            </div>
+            <input type="number" id="goalYears" value="10" min="1" max="40" step="1" aria-label="Years to reach goal">
+            <input type="range" id="goalYearsSlider" min="1" max="40" step="1" value="10" aria-label="Years to goal slider">
+            <div class="calc-field-helper">Time available to reach the goal</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Expected Return</span>
+              <span class="calc-field-value" id="goalRateLabel">12.0%</span>
+            </div>
+            <input type="number" id="goalRate" value="12" min="1" max="30" step="0.5" aria-label="Expected annual return percentage">
+            <input type="range" id="goalRateSlider" min="1" max="30" step="0.5" value="12" aria-label="Expected return slider">
+            <div class="calc-field-helper">Long-term equity return estimate</div>
+          </div>
+        </div>
+
+        <div class="calc-card-block">
+          <div class="calc-block-title">Plan</div>
+
+          <div class="calc-metric-hero">
+            <div class="calc-metric-label">Required Monthly SIP</div>
+            <div class="calc-metric-value" id="goalSIPRequired">&#8377;0</div>
+          </div>
+
+          <div class="calc-metric-grid">
+            <div class="calc-metric">
+              <div class="calc-metric-label">Goal</div>
+              <div class="calc-metric-value" id="goalTarget">&#8377;0</div>
+            </div>
+            <div class="calc-metric">
+              <div class="calc-metric-label">Total Invested</div>
+              <div class="calc-metric-value" id="goalInvested">&#8377;0</div>
+            </div>
+            <div class="calc-metric">
+              <div class="calc-metric-label">Returns</div>
+              <div class="calc-metric-value is-success" id="goalReturns">&#8377;0</div>
+            </div>
+          </div>
+
+          <div class="calc-insight" id="goalInsight">
+            <div class="calc-insight-icon">i</div>
+            <div class="calc-insight-text">Set your goal and timeline to see what it takes.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-chart-card">
+        <div class="calc-chart-head">
+          <div class="calc-chart-title">Investment Composition</div>
+          <div class="calc-chart-legend">
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1a73e8"></span>Your Investment</span>
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1b9e4b"></span>Estimated Returns</span>
+          </div>
+        </div>
+        <div class="calc-chart-wrap">
+          <canvas id="goalChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ EMI PANEL ═══ -->
+    <section class="calc-panel" id="panel-emi" role="tabpanel">
+      <div class="calc-layout">
+        <div class="calc-card-block">
+          <div class="calc-block-title">Inputs</div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Loan Amount</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="emiLoan" value="2500000" min="10000" step="10000" aria-label="Loan amount in rupees">
+            </div>
+            <input type="range" id="emiLoanSlider" min="10000" max="50000000" step="10000" value="2500000" aria-label="Loan amount slider">
+            <div class="calc-field-helper">Total loan you wish to borrow</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Interest Rate</span>
+              <span class="calc-field-value" id="emiRateLabel">9.00%</span>
+            </div>
+            <input type="number" id="emiRate" value="9" min="1" max="25" step="0.05" aria-label="Annual interest rate percentage">
+            <input type="range" id="emiRateSlider" min="1" max="25" step="0.05" value="9" aria-label="Interest rate slider">
+            <div class="calc-field-helper">Annual interest rate offered by the lender</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Tenure</span>
+              <span class="calc-field-value" id="emiYearsLabel">20 yrs</span>
+            </div>
+            <input type="number" id="emiYears" value="20" min="1" max="40" step="1" aria-label="Loan tenure in years">
+            <input type="range" id="emiYearsSlider" min="1" max="40" step="1" value="20" aria-label="Tenure slider">
+            <div class="calc-field-helper">Total loan repayment period</div>
+          </div>
+        </div>
+
+        <div class="calc-card-block">
+          <div class="calc-block-title">Repayment</div>
+
+          <div class="calc-metric-hero">
+            <div class="calc-metric-label">Monthly EMI</div>
+            <div class="calc-metric-value" id="emiAmount">&#8377;0</div>
+          </div>
+
+          <div class="calc-metric-grid">
+            <div class="calc-metric">
+              <div class="calc-metric-label">Principal</div>
+              <div class="calc-metric-value" id="emiPrincipal">&#8377;0</div>
+            </div>
+            <div class="calc-metric">
+              <div class="calc-metric-label">Total Interest</div>
+              <div class="calc-metric-value is-danger" id="emiInterest">&#8377;0</div>
+            </div>
+            <div class="calc-metric">
+              <div class="calc-metric-label">Total Payable</div>
+              <div class="calc-metric-value" id="emiTotal">&#8377;0</div>
+            </div>
+          </div>
+
+          <div class="calc-insight" id="emiInsight">
+            <div class="calc-insight-icon">i</div>
+            <div class="calc-insight-text">Tweak the loan, rate or tenure to compare.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-chart-card">
+        <div class="calc-chart-head">
+          <div class="calc-chart-title">Loan Breakdown</div>
+          <div class="calc-chart-legend">
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1a73e8"></span>Principal</span>
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#dc3545"></span>Interest</span>
+          </div>
+        </div>
+        <div class="calc-chart-row">
+          <div class="calc-chart-wrap">
+            <canvas id="emiChart"></canvas>
+          </div>
+          <div class="calc-chart-wrap">
+            <canvas id="emiBarChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SWP PANEL ═══ -->
+    <section class="calc-panel" id="panel-swp" role="tabpanel">
+      <div class="calc-layout">
+        <div class="calc-card-block">
+          <div class="calc-block-title">Inputs</div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Initial Corpus</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="swpCorpus" value="2500000" min="10000" step="10000" aria-label="Initial corpus in rupees">
+            </div>
+            <input type="range" id="swpCorpusSlider" min="10000" max="50000000" step="10000" value="2500000" aria-label="Initial corpus slider">
+            <div class="calc-field-helper">Lump sum invested at the start</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Monthly Withdrawal</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="swpWithdrawal" value="20000" min="500" step="500" aria-label="Monthly withdrawal in rupees">
+            </div>
+            <input type="range" id="swpWithdrawalSlider" min="500" max="500000" step="500" value="20000" aria-label="Monthly withdrawal slider">
+            <div class="calc-field-helper">Amount drawn each month</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Expected Return</span>
+              <span class="calc-field-value" id="swpRateLabel">8.0%</span>
+            </div>
+            <input type="number" id="swpRate" value="8" min="1" max="20" step="0.5" aria-label="Expected annual return percentage">
+            <input type="range" id="swpRateSlider" min="1" max="20" step="0.5" value="8" aria-label="Expected return slider">
+            <div class="calc-field-helper">Annual return on remaining corpus</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Duration</span>
+              <span class="calc-field-value" id="swpYearsLabel">20 yrs</span>
+            </div>
+            <input type="number" id="swpYears" value="20" min="1" max="40" step="1" aria-label="Withdrawal duration in years">
+            <input type="range" id="swpYearsSlider" min="1" max="40" step="1" value="20" aria-label="Duration slider">
+            <div class="calc-field-helper">Withdrawal period in years</div>
+          </div>
+        </div>
+
+        <div class="calc-card-block">
+          <div class="calc-block-title">Outcome</div>
+
+          <div class="calc-metric-hero">
+            <div class="calc-metric-label">Corpus Lasts</div>
+            <div class="calc-metric-value" id="swpLasts">—</div>
+          </div>
+
+          <div class="calc-metric-grid">
+            <div class="calc-metric">
+              <div class="calc-metric-label">Total Withdrawn</div>
+              <div class="calc-metric-value" id="swpTotalWithdrawn">&#8377;0</div>
+            </div>
+            <div class="calc-metric">
+              <div class="calc-metric-label">Remaining</div>
+              <div class="calc-metric-value is-success" id="swpRemaining">&#8377;0</div>
+            </div>
+          </div>
+
+          <div class="calc-insight" id="swpInsight">
+            <div class="calc-insight-icon">i</div>
+            <div class="calc-insight-text">Set your corpus and withdrawal to see longevity.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-chart-card">
+        <div class="calc-chart-head">
+          <div class="calc-chart-title">Corpus Trajectory</div>
+          <div class="calc-chart-legend">
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1a73e8"></span>Remaining Corpus</span>
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#e8780a"></span>Total Withdrawn</span>
+          </div>
+        </div>
+        <div class="calc-chart-wrap">
+          <canvas id="swpChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ LUMP SUM PANEL ═══ -->
+    <section class="calc-panel" id="panel-lump" role="tabpanel">
+      <div class="calc-layout">
+        <div class="calc-card-block">
+          <div class="calc-block-title">Inputs</div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Investment Amount</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="lumpAmount" value="500000" min="1000" step="1000" aria-label="Lump sum investment amount in rupees">
+            </div>
+            <input type="range" id="lumpAmountSlider" min="1000" max="50000000" step="1000" value="500000" aria-label="Investment amount slider">
+            <div class="calc-field-helper">One-time amount you invest today</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Expected Return</span>
+              <span class="calc-field-value" id="lumpRateLabel">12.0%</span>
+            </div>
+            <input type="number" id="lumpRate" value="12" min="1" max="30" step="0.5" aria-label="Expected annual return percentage">
+            <input type="range" id="lumpRateSlider" min="1" max="30" step="0.5" value="12" aria-label="Expected return slider">
+            <div class="calc-field-helper">Long-term equity return estimate (typically 10–14%)</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Duration</span>
+              <span class="calc-field-value" id="lumpYearsLabel">15 yrs</span>
+            </div>
+            <input type="number" id="lumpYears" value="15" min="1" max="40" step="1" aria-label="Investment duration in years">
+            <input type="range" id="lumpYearsSlider" min="1" max="40" step="1" value="15" aria-label="Duration slider">
+            <div class="calc-field-helper">Holding period in years</div>
+          </div>
+        </div>
+
+        <div class="calc-card-block">
+          <div class="calc-block-title">Projection</div>
+
+          <div class="calc-metric-hero">
+            <div class="calc-metric-label">Future Value</div>
+            <div class="calc-metric-value" id="lumpFuture">&#8377;0</div>
+          </div>
+
+          <div class="calc-metric-grid">
+            <div class="calc-metric">
+              <div class="calc-metric-label">Invested</div>
+              <div class="calc-metric-value" id="lumpInvested">&#8377;0</div>
+            </div>
+            <div class="calc-metric">
+              <div class="calc-metric-label">Estimated Returns</div>
+              <div class="calc-metric-value is-success" id="lumpReturns">&#8377;0</div>
+            </div>
+          </div>
+
+          <div class="calc-insight" id="lumpInsight">
+            <div class="calc-insight-icon">i</div>
+            <div class="calc-insight-text">Adjust the inputs to see your compounding projection.</div>
+          </div>
+          <div style="margin-top:16px;">
+            <button class="btn btn-secondary" onclick="saveLumpSumToInvestments()" style="width:100%;font-size:13px;">&#128190; Save as Mutual Fund Investment</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-chart-card">
+        <div class="calc-chart-head">
+          <div class="calc-chart-title">Compounding Growth</div>
+          <div class="calc-chart-legend">
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1a73e8"></span>Invested</span>
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1b9e4b"></span>Projected Value</span>
+          </div>
+        </div>
+        <div class="calc-chart-wrap">
+          <canvas id="lumpChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ INCOME TAX PANEL ═══ -->
+    <section class="calc-panel" id="panel-tax" role="tabpanel">
+      <div class="calc-segmented" role="tablist" aria-label="Tax regime">
+        <button type="button" class="calc-segment is-active" data-regime="new" role="tab" aria-selected="true">
+          <span class="calc-segment-title">New Regime</span>
+          <span class="calc-segment-sub">FY 2025-26 · Higher slabs</span>
+        </button>
+        <button type="button" class="calc-segment" data-regime="old" role="tab" aria-selected="false">
+          <span class="calc-segment-title">Old Regime</span>
+          <span class="calc-segment-sub">With deductions</span>
+        </button>
+      </div>
+
+      <div class="calc-layout">
+        <div class="calc-card-block">
+          <div class="calc-block-title">Income Details</div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Annual Salary</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="taxSalary" value="1500000" min="0" step="10000" aria-label="Annual salary income">
+            </div>
+            <input type="range" id="taxSalarySlider" min="0" max="10000000" step="10000" value="1500000" aria-label="Annual salary slider">
+            <div class="calc-field-helper">Standard deduction is applied automatically</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Bonus / Variable Pay</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="taxBonus" value="0" min="0" step="10000" aria-label="Bonus income">
+            </div>
+            <input type="range" id="taxBonusSlider" min="0" max="5000000" step="10000" value="0" aria-label="Bonus slider">
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-head">
+              <span class="calc-field-label">Other Income</span>
+            </div>
+            <div class="calc-input-row">
+              <span class="calc-prefix">&#8377;</span>
+              <input type="number" id="taxOther" value="0" min="0" step="10000" aria-label="Other income">
+            </div>
+            <input type="range" id="taxOtherSlider" min="0" max="5000000" step="10000" value="0" aria-label="Other income slider">
+            <div class="calc-field-helper">Interest, rent or other taxable income</div>
+          </div>
+
+          <div class="calc-collapsible" id="taxDeductions">
+            <button type="button" class="calc-collapse-head" aria-expanded="false" aria-controls="taxDeductionsBody">
+              <span class="calc-collapse-title">Deductions
+                <span class="calc-collapse-tag" id="taxDedTotal">&#8377;0</span>
+              </span>
+              <span class="calc-collapse-chevron" aria-hidden="true">&#9662;</span>
+            </button>
+            <div class="calc-collapse-body" id="taxDeductionsBody" hidden>
+              <div class="calc-mini-field">
+                <label class="calc-mini-label">80C — Investments <span class="calc-mini-cap">max ₹1.5L</span></label>
+                <div class="calc-input-row"><span class="calc-prefix">&#8377;</span>
+                  <input type="number" id="tax80C" value="150000" min="0" max="150000" step="1000" aria-label="80C deduction">
+                </div>
+              </div>
+              <div class="calc-mini-field">
+                <label class="calc-mini-label">80D — Health Insurance <span class="calc-mini-cap">max ₹75K</span></label>
+                <div class="calc-input-row"><span class="calc-prefix">&#8377;</span>
+                  <input type="number" id="tax80D" value="25000" min="0" max="75000" step="1000" aria-label="80D deduction">
+                </div>
+              </div>
+              <div class="calc-mini-field">
+                <label class="calc-mini-label">HRA Exemption</label>
+                <div class="calc-input-row"><span class="calc-prefix">&#8377;</span>
+                  <input type="number" id="taxHRA" value="0" min="0" step="1000" aria-label="HRA exemption">
+                </div>
+              </div>
+              <div class="calc-mini-field">
+                <label class="calc-mini-label">Home Loan Interest <span class="calc-mini-cap">max ₹2L</span></label>
+                <div class="calc-input-row"><span class="calc-prefix">&#8377;</span>
+                  <input type="number" id="taxHome" value="0" min="0" max="200000" step="1000" aria-label="Home loan interest">
+                </div>
+              </div>
+              <div class="calc-mini-field">
+                <label class="calc-mini-label">NPS — 80CCD(1B) <span class="calc-mini-cap">max ₹50K</span></label>
+                <div class="calc-input-row"><span class="calc-prefix">&#8377;</span>
+                  <input type="number" id="taxNPS" value="0" min="0" max="50000" step="1000" aria-label="NPS deduction">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-card-block">
+          <div class="calc-block-title">Tax Summary <span class="calc-block-sub" id="taxRegimeBadge">New Regime</span></div>
+
+          <div class="calc-metric-hero">
+            <div class="calc-metric-label">Tax Payable</div>
+            <div class="calc-metric-value" id="taxPayable">&#8377;0</div>
+          </div>
+
+          <div class="calc-metric-grid">
+            <div class="calc-metric">
+              <div class="calc-metric-label">Effective Rate</div>
+              <div class="calc-metric-value" id="taxEffRate">0.0%</div>
+            </div>
+            <div class="calc-metric">
+              <div class="calc-metric-label">Monthly Impact</div>
+              <div class="calc-metric-value is-warning" id="taxMonthly">&#8377;0</div>
+            </div>
+            <div class="calc-metric">
+              <div class="calc-metric-label">Take-home</div>
+              <div class="calc-metric-value is-success" id="taxTakehome">&#8377;0</div>
+            </div>
+          </div>
+
+          <div class="calc-insight" id="taxInsight">
+            <div class="calc-insight-icon">i</div>
+            <div class="calc-insight-text">Enter your income to see how each regime stacks up.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-compare-row" aria-label="Regime comparison">
+        <div class="calc-compare-card" id="taxCompareNew">
+          <div class="calc-compare-head">
+            <span class="calc-compare-tag">New Regime</span>
+            <span class="calc-compare-badge" hidden>Save more</span>
+          </div>
+          <div class="calc-compare-value" id="taxCompareNewValue">&#8377;0</div>
+          <div class="calc-compare-meta">
+            <span>Taxable: <strong id="taxCompareNewTaxable">&#8377;0</strong></span>
+            <span>Effective <strong id="taxCompareNewRate">0.0%</strong></span>
+          </div>
+        </div>
+        <div class="calc-compare-card" id="taxCompareOld">
+          <div class="calc-compare-head">
+            <span class="calc-compare-tag">Old Regime</span>
+            <span class="calc-compare-badge" hidden>Save more</span>
+          </div>
+          <div class="calc-compare-value" id="taxCompareOldValue">&#8377;0</div>
+          <div class="calc-compare-meta">
+            <span>Taxable: <strong id="taxCompareOldTaxable">&#8377;0</strong></span>
+            <span>Effective <strong id="taxCompareOldRate">0.0%</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-chart-card">
+        <div class="calc-chart-head">
+          <div class="calc-chart-title">Tax Breakdown &amp; Comparison</div>
+          <div class="calc-chart-legend">
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1b9e4b"></span>Take-home</span>
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#1a73e8"></span>Deductions</span>
+            <span class="calc-legend-pill"><span class="calc-legend-dot" style="background:#dc3545"></span>Tax</span>
+          </div>
+        </div>
+        <div class="calc-chart-row">
+          <div class="calc-chart-wrap">
+            <canvas id="taxBreakdownChart"></canvas>
+          </div>
+          <div class="calc-chart-wrap">
+            <canvas id="taxCompareChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../js/utils/utils.js"></script>
+  <script src="../js/utils/formatters.js"></script>
+  <script src="../js/storage/storageAdapter.js"></script>
+  <script src="../js/components/metricCard.js"></script>
+  <script src="../js/components/sectionHeader.js"></script>
+  <script src="../js/components/emptyState.js"></script>
+  <script src="../js/components/chartCard.js"></script>
+  <script src="../js/calculators/calculatorUtils.js"></script>
+  <script src="../js/calculators/shared/sliderUtils.js"></script>
+  <script src="../js/calculators/shared/chartUtils.js"></script>
+  <script src="../js/calculators/calculatorRenderer.js"></script>
+  <script src="../js/calculators/sipCalculator.js"></script>
+  <script src="../js/calculators/goalSipCalculator.js"></script>
+  <script src="../js/calculators/swpCalculator.js"></script>
+  <script src="../js/calculators/emiCalculator.js"></script>
+  <script src="../js/calculators/lumpSumCalculator.js"></script>
+  <script src="../js/calculators/incomeTaxCalculator.js"></script>
+  <script src="../js/templates/templates.js"></script>
+  <script src="../js/cache/selectors.js"></script>
+  <script src="../js/validation/validationCore.js"></script>
+  <script src="../js/validation/amountValidator.js"></script>
+  <script src="../js/validation/accountValidator.js"></script>
+  <script src="../js/validation/lendingValidator.js"></script>
+  <script src="../js/validation/calculatorValidator.js"></script>
+  <script src="../js/storage/restApiAdapter.js"></script>
+  <script>
+    // ── Save Calculator Results to Investments ────────────────
+    function saveSIPToInvestments() {
+      const monthly = parseFloat(document.getElementById('sipMonthly').value) || 0;
+      const years   = parseInt(document.getElementById('sipYears').value) || 0;
+      if (!monthly || !years) {
+        alert('Please enter valid SIP inputs first.'); return;
+      }
+      const today = new Date();
+      const sipDay = today.getDate();
+      const invested = monthly * years * 12;
+      // Navigate to investments page with query params to pre-fill
+      const params = new URLSearchParams({
+        from: 'sip-calc',
+        sipAmount: monthly,
+        sipDay: sipDay,
+        investedAmount: invested,
+        currentValue: invested
+      });
+      window.location.href = 'investments.html?' + params.toString();
+    }
+
+    function saveLumpSumToInvestments() {
+      const amount = parseFloat(document.getElementById('lumpAmount').value) || 0;
+      if (!amount) { alert('Please enter a valid lump sum amount first.'); return; }
+      const params = new URLSearchParams({
+        from: 'lump-calc',
+        investedAmount: amount,
+        currentValue: amount
+      });
+      window.location.href = 'investments.html?' + params.toString();
+    }
+  </script>
+</body>
+</html>

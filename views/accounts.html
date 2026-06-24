@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Tracker – Accounts</title>
+    <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/darkmode.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav data-app-nav data-active="accounts" data-base-path="views"></nav>
+  <script src="../js/components/navbar.js"></script>
+
+  <div class="container">
+    <h1>Accounts</h1>
+
+    <!-- Summary cards -->
+    <div class="cards" style="margin-bottom: 24px;">
+      <div class="card income">
+        <h3>Bank Balance</h3>
+        <div class="amount" id="bankTotalDisplay">&#8377;0</div>
+      </div>
+      <div class="card expense">
+        <h3>Credit Card Due</h3>
+        <div class="amount" id="ccTotalDisplay">&#8377;0</div>
+      </div>
+      <div class="card savings">
+        <h3>Cash</h3>
+        <div class="amount" id="cashTotalDisplay">&#8377;0</div>
+      </div>
+      <div class="card balance">
+        <h3>Net Worth</h3>
+        <div class="amount" id="netWorthDisplay">&#8377;0</div>
+      </div>
+    </div>
+
+    <!-- Add / Edit Account -->
+    <div class="dash-section">
+      <div class="dash-section-title">Add Account</div>
+      <div class="form-group">
+        <input id="accName" placeholder="Account Name (e.g. HDFC Bank)" maxlength="40">
+        <select id="accType" onchange="toggleCCFields()">
+          <option value="bank">Bank Account</option>
+          <option value="credit">Credit Card</option>
+          <option value="cash">Cash</option>
+        </select>
+        <input id="accBalance" placeholder="Balance (&#8377;)" type="number" step="0.01">
+        <input id="accBillingDay" type="number" min="1" max="31" placeholder="Billing Day" value="1" style="display:none;">
+        <input id="accDueDay" type="number" min="1" max="31" placeholder="Due Day" value="15" style="display:none;">
+        <button id="accSubmitBtn" onclick="addAccount()">Add Account</button>
+        <button id="accCancelBtn" class="btn-cancel" onclick="cancelEditAccount()" style="display:none;">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Account List -->
+    <div class="dash-section">
+      <div class="dash-section-title">Your Accounts</div>
+      <div id="accountList"></div>
+    </div>
+
+    <!-- Credit Card Statements -->
+    <div class="dash-section">
+      <div class="dash-section-title">Credit Card Statements</div>
+      <div id="ccStatements"></div>
+    </div>
+  </div>
+
+  <script src="../js/utils/utils.js"></script>
+  <script src="../js/storage/storageAdapter.js"></script>
+  <script src="../js/components/metricCard.js"></script>
+  <script src="../js/components/sectionHeader.js"></script>
+  <script src="../js/components/emptyState.js"></script>
+  <script src="../js/components/chartCard.js"></script>
+  <script src="../js/data/dataService.js"></script>
+  <script src="../js/services/transactionService.js"></script>
+  <script src="../js/services/appState.js"></script>
+  <script src="../js/utils/formatters.js"></script>
+  <script src="../js/templates/templates.js"></script>
+  <script src="../js/cache/selectors.js"></script>
+  <script src="../js/validation/validationCore.js"></script>
+  <script src="../js/validation/amountValidator.js"></script>
+  <script src="../js/validation/accountValidator.js"></script>
+  <script src="../js/validation/lendingValidator.js"></script>
+  <script src="../js/validation/calculatorValidator.js"></script>
+  <script src="../js/storage/restApiAdapter.js"></script>
+  <script src="../js/services/filterService.js"></script>
+  <script src="../js/services/accountService.js"></script>
+  <script src="../js/ui/accounts.js"></script>
+</body>
+</html>
