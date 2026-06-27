@@ -92,39 +92,37 @@ const Navbar = (function () {
       basePath: el.getAttribute('data-base-path') || 'root'
     });
 
-    // Add click handlers for mobile dropdown toggle
+    // Backdrop: invisible full-screen layer that closes dropdowns on outside tap
+    const navBackdrop = document.createElement('div');
+    navBackdrop.style.cssText = 'position:fixed;inset:0;z-index:98;background:transparent;display:none;';
+    document.body.appendChild(navBackdrop);
+
     const navGroups = document.querySelectorAll('.nav-group');
-    navGroups.forEach(group => {
-      const btn = group.querySelector('.nav-group-btn');
-      if (btn) {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          const willOpen = !group.classList.contains('nav-group--open');
 
-          // Close other open dropdowns
-          navGroups.forEach(g => {
-            g.classList.remove('nav-group--open');
-            const gBtn = g.querySelector('.nav-group-btn');
-            if (gBtn) gBtn.setAttribute('aria-expanded', 'false');
-          });
-
-          // Toggle current dropdown
-          if (willOpen) {
-            group.classList.add('nav-group--open');
-            btn.setAttribute('aria-expanded', 'true');
-          }
-        });
-      }
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-      if (e.target && e.target.closest('nav[data-app-nav]')) return;
-      navGroups.forEach(g => g.classList.remove('nav-group--open'));
+    function closeAllDropdowns() {
       navGroups.forEach(g => {
+        g.classList.remove('nav-group--open');
         const gBtn = g.querySelector('.nav-group-btn');
         if (gBtn) gBtn.setAttribute('aria-expanded', 'false');
+      });
+      navBackdrop.style.display = 'none';
+    }
+
+    navBackdrop.addEventListener('click', closeAllDropdowns);
+    navBackdrop.addEventListener('touchend', closeAllDropdowns);
+
+    navGroups.forEach(group => {
+      const btn = group.querySelector('.nav-group-btn');
+      if (!btn) return;
+
+      btn.addEventListener('click', () => {
+        const willOpen = !group.classList.contains('nav-group--open');
+        closeAllDropdowns(); // close all first
+        if (willOpen) {
+          group.classList.add('nav-group--open');
+          btn.setAttribute('aria-expanded', 'true');
+          navBackdrop.style.display = 'block'; // show backdrop to capture outside taps
+        }
       });
     });
   });
