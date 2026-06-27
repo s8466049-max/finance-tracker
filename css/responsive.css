@@ -73,6 +73,8 @@
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
+    background: linear-gradient(135deg, #1a73e8 0%, #1558b0 100%);
+    box-shadow: 0 2px 12px rgba(26,115,232,0.22);
     padding: var(--space-sm) var(--space-md);
     height: auto;
     display: flex;
