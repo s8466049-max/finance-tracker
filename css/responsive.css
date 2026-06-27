@@ -93,6 +93,18 @@
     font-size: var(--font-size-sm);
     border-radius: var(--radius-pill);
     white-space: nowrap;
+    color: var(--text);
+  }
+  nav[data-app-nav] .nav-group-btn {
+    color: var(--text);
+    font-size: var(--font-size-sm);
+  }
+  nav[data-app-nav] #darkModeBtn {
+    color: var(--text);
+  }
+  nav[data-app-nav] .nav-dropdown {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
   }
 
   /* Tables → stacked card layout */
