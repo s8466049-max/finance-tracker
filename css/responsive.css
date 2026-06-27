@@ -73,9 +73,11 @@
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
-    background: var(--bg-card);
-    border-bottom: 1px solid var(--border);
     padding: var(--space-sm) var(--space-md);
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
   }
   nav[data-app-nav] .nav-links {
     display: flex;
@@ -84,6 +86,7 @@
     scrollbar-width: none;
     gap: var(--space-xs);
     padding-bottom: var(--space-xs);
+    width: 100%;
   }
   nav[data-app-nav] .nav-links::-webkit-scrollbar { display: none; }
   nav[data-app-nav] a,
@@ -93,18 +96,12 @@
     font-size: var(--font-size-sm);
     border-radius: var(--radius-pill);
     white-space: nowrap;
-    color: var(--text);
   }
   nav[data-app-nav] .nav-group-btn {
-    color: var(--text);
     font-size: var(--font-size-sm);
   }
-  nav[data-app-nav] #darkModeBtn {
-    color: var(--text);
-  }
   nav[data-app-nav] .nav-dropdown {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    min-width: 150px;
   }
 
   /* Tables → stacked card layout */
