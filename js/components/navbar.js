@@ -91,6 +91,31 @@ const Navbar = (function () {
       active:   el.getAttribute('data-active')    || '',
       basePath: el.getAttribute('data-base-path') || 'root'
     });
+
+    // Add click handlers for mobile dropdown toggle
+    const navGroups = document.querySelectorAll('.nav-group');
+    navGroups.forEach(group => {
+      const btn = group.querySelector('.nav-group-btn');
+      if (btn) {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Close other open dropdowns
+          navGroups.forEach(g => {
+            if (g !== group) g.classList.remove('nav-group--open');
+          });
+          
+          // Toggle current dropdown
+          group.classList.toggle('nav-group--open');
+        });
+      }
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', () => {
+      navGroups.forEach(g => g.classList.remove('nav-group--open'));
+    });
   });
 
   return { render, build };
