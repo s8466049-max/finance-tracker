@@ -57,7 +57,7 @@ const Navbar = (function () {
     const groupCls = isActive ? 'nav-group nav-group--active' : 'nav-group';
     const links = group.items.map(i => buildLink(i, activeId, basePath)).join('\n        ');
     return `<div class="${groupCls}">
-      <span class="nav-group-btn">${group.label} <span class="nav-arrow">&#9662;</span></span>
+      <button type="button" class="nav-group-btn" aria-expanded="false">${group.label} <span class="nav-arrow">&#9662;</span></button>
       <div class="nav-dropdown">
         ${links}
       </div>
@@ -100,21 +100,32 @@ const Navbar = (function () {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          
+          const willOpen = !group.classList.contains('nav-group--open');
+
           // Close other open dropdowns
           navGroups.forEach(g => {
-            if (g !== group) g.classList.remove('nav-group--open');
+            g.classList.remove('nav-group--open');
+            const gBtn = g.querySelector('.nav-group-btn');
+            if (gBtn) gBtn.setAttribute('aria-expanded', 'false');
           });
-          
+
           // Toggle current dropdown
-          group.classList.toggle('nav-group--open');
+          if (willOpen) {
+            group.classList.add('nav-group--open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
         });
       }
     });
 
     // Close dropdown when clicking outside
-    document.addEventListener('click', () => {
+    document.addEventListener('click', (e) => {
+      if (e.target && e.target.closest('nav[data-app-nav]')) return;
       navGroups.forEach(g => g.classList.remove('nav-group--open'));
+      navGroups.forEach(g => {
+        const gBtn = g.querySelector('.nav-group-btn');
+        if (gBtn) gBtn.setAttribute('aria-expanded', 'false');
+      });
     });
   });
 
